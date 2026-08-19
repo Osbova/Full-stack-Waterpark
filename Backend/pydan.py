@@ -3,7 +3,7 @@ from typing import Optional, List, Dict, Annotated
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from clamod import Admin, Ticket, User, Food
-from scheme import UserCreate, TicketCreate, AdminCreate, Ticket as tick, User as us, Admin as add, Food as meal, FoodCreate as mealcreate, BuyTicket, BuyFood
+from scheme import UserCreate, TicketCreate, AdminCreate, Ticket as tick, User as us, Admin as add, Food as meal, FoodCreate as mealcreate, BuyTicket, BuyFood, UserLogin
 from databas import engine, sessionlocal
 import clamod
 from fastapi.middleware.cors import CORSMiddleware
@@ -55,14 +55,21 @@ async def addtick(tick: TicketCreate, db: Session = Depends(get_db)) -> tick:
         raise HTTPException(status_code=404, detail="Admin not found")
 
 
-@app.post("/User/add")
-async def Useradd(use: UserCreate, db: Session = Depends(get_db)) -> us:
-    new_user = clamod.User(name=use.name, wallet=use.wallet, gender=use.gender)
+@app.post("/register")
+async def RegisterUser(use: UserCreate, db: Session = Depends(get_db)) -> us:
+    new_user = clamod.User(name=use.name, gender=use.gender, password=use.password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     return new_user
 
+
+@app.post("/login")
+async def LoginUser(log: UserLogin, db: Session = Depends(get_db)):
+    check_log = db.query(clamod.User).filter(clamod.User.name == log.user_name, clamod.User.password == log.password_user ).first()
+    if check_log is None:
+        raise HTTPException(status_code=404, detail="Password or User not correct ")
+    return 'Success 200'
 
 @app.post("/Admins/add")
 async def AdminAdd(admi: AdminCreate, db: Session = Depends(get_db)) -> add:

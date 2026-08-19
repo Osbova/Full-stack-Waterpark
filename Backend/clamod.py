@@ -18,7 +18,6 @@ class Admin(Based):
 class Ticket(Based):
     
     __tablename__ = "Tickets"
-
     title = Column(String)
     id = Column(Integer, primary_key=True, index=True)
     price = Column(Integer)
@@ -32,7 +31,7 @@ class User(Based):
     __tablename__ = "Users"
 
     id = Column(Integer, primary_key=True, index=True)
-    wallet = Column(Integer)
+    password = Column(String)
     name = Column(String)
     gender = Column(String)
 

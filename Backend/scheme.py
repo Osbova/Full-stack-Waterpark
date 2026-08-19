@@ -4,9 +4,13 @@ from typing import Optional, List, Dict, Annotated
 
 class UserCreate(BaseModel):
     gender: Annotated[str, Field(..., max_length=1, title="Укажите пол М/Ж")]
-    wallet: int
+    password: str
     name: str
 
+
+class UserLogin(BaseModel):
+    password_user: str
+    user_name: str
 
 class BuyTicket(BaseModel):
     id_user: int
