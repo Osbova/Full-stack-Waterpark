@@ -20,15 +20,29 @@
           <form class="register-form" @submit.prevent="handleLogin">
             <div class="input-group">
               <label>Имя пользователя</label>
-              <input type="text" v-model="userName" placeholder="Введите имя" />
+              <input 
+                type="text" 
+                v-model="userName" 
+                placeholder="Введите имя" 
+                minlength="4"
+                required 
+              />
             </div>
 
             <div class="input-group">
               <label>Пароль</label>
-              <input type="password" v-model="passwordUser" placeholder="••••••••" />
+              <input 
+                type="password" 
+                v-model="passwordUser" 
+                placeholder="••••••••" 
+                minlength="6"
+                required 
+              />
             </div>
 
             <button type="submit" class="submit-btn">Войти</button>
+            
+            <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
           </form>
 
           <div id="login">
@@ -47,11 +61,21 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const userName = ref("");
 const passwordUser = ref("");
+const errorMessage = ref("");
 
 const handleLogin = async () => {
+  errorMessage.value = "";
+
+  if (userName.value.length < 4 || passwordUser.value.length < 6) {
+    return;
+  }
+
   const userData = {
     user_name: userName.value,
     password_user: passwordUser.value
@@ -67,11 +91,14 @@ const handleLogin = async () => {
     });
 
     if (response.ok) {
-      const data = await response.json();
+      localStorage.setItem('userName', userName.value);
+      router.push('/menu');
     } else {
+      errorMessage.value = "Неверное имя пользователя или пароль";
     }
   } catch (error) {
     console.error("Ошибка сети или сервера:", error);
+    errorMessage.value = "Ошибка подключения к серверу";
   }
 };
 </script>
@@ -185,6 +212,27 @@ const handleLogin = async () => {
 
 .submit-btn:hover {
   background-color: #0077b6;
+}
+
+.error-message {
+  color: #e63946;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 0;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 #login {

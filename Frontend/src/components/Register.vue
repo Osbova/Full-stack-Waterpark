@@ -1,4 +1,3 @@
-
 <template>
   <div class="page-container">
     <header class="top-bar">
@@ -20,7 +19,13 @@
           <form class="register-form" @submit.prevent="handleRegister">
             <div class="input-group">
               <label>Имя</label>
-              <input type="text" v-model="name" placeholder="Введите ваше имя" />
+              <input 
+                type="text" 
+                v-model="name" 
+                placeholder="Введите ваше имя" 
+                minlength="4" 
+                required 
+              />
             </div>
 
             <div class="input-group">
@@ -47,7 +52,13 @@
 
             <div class="input-group">
               <label>Пароль</label>
-              <input type="password" v-model="password" placeholder="••••••••" />
+              <input 
+                type="password" 
+                v-model="password" 
+                placeholder="••••••••" 
+                minlength="6" 
+                required 
+              />
             </div>
 
             <button type="submit" class="submit-btn">Зарегистрироваться</button>
@@ -69,25 +80,46 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const name = ref('')
 const gender = ref('')
 const password = ref('')
 
 const handleRegister = async () => {
+  if (!gender.value) {
+    alert('Пожалуйста, выберите ваш пол')
+    return
+  }
+
+  if (name.value.length < 4 || password.value.length < 6) {
+    return
+  }
+
   const userData = {
     name: name.value,
     gender: gender.value,
     password: password.value
   }
 
-  await fetch('http://127.0.0.1:8000/register', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(userData)
-})
+  try {
+    const response = await fetch('http://127.0.0.1:8000/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+
+    if (response.ok) {
+      localStorage.setItem('userName', name.value)
+      router.push('/menu')
+    }
+  } catch (error) {
+    console.error('Ошибка при отправке данных:', error)
+  }
 }
 </script>
 
@@ -97,26 +129,28 @@ const handleRegister = async () => {
   gap: 10px;
 }
 
-#genM {
+#genM, #genW {
   width: 100px;
+  padding: 10px 0;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff; 
+  color: #334155;            
   border-radius: 10px;
   cursor: pointer;
-}
-
-#genW {
-  width: 100px;
-  border-radius: 10px;
-  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .activeM {
-  background-color: #0077b6;
-  color: white;
+  background-color: #025886 !important;
+  border-color: #0077b6 !important;
+  color: #ffffff !important; 
 }
 
 .activeW {
-  background-color: fuchsia;
-  color: white;
+  background-color: rgb(154, 7, 154) !important;
+  border-color: rgb(139, 5, 139) !important;
+  color: #ffffff !important; 
 }
 
 .page-container {
@@ -254,4 +288,3 @@ const handleRegister = async () => {
   border-top: 2px solid #e0e0e0;
 }
 </style>
-
