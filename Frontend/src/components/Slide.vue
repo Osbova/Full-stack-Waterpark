@@ -26,19 +26,6 @@
         <button class="navigation profile-btn">Профиль</button>
       </div>
     </header>
-
-    <main class="main-content">
-      <section class="hero-section">
-        <img src="../assets/Logo_menu.png" alt="Аквапарк" class="hero-bg" />
-        <div class="hero-overlay"></div>
-
-        <div class="hero-content">
-          <h2 class="hero-title">Незабываемый отдых и эмоции</h2>
-          <p class="hero-subtitle">Окунитесь в мир водных развлечений прямо сейчас</p>
-          <button class="buy-ticket-btn">Купить билет</button>
-        </div>
-      </section>
-    </main>
   </div>
 </template>
 
@@ -139,91 +126,6 @@
 .let5 { color: #ffb703; } 
 .let6 { color: #fb8500; }
 .let7 { color: #e63946; }
-
-.main-content {
-  padding: 0;
-  width: 100%;
-}
-
-.hero-section {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 75px); 
-  border-radius: 0;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: none;
-}
-
-.hero-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
-  z-index: 2;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  color: #ffffff;
-  max-width: 650px;
-  padding: 0 20px;
-}
-
-.hero-title {
-  font-size: 3rem;
-  font-weight: 900;
-  margin-bottom: 12px;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-}
-
-.hero-subtitle {
-  font-size: 1.25rem;
-  color: #e2e8f0;
-  margin-bottom: 32px;
-  font-weight: 500;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-.buy-ticket-btn {
-  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
-  color: #ffffff;
-  font-size: 1.25rem;
-  font-weight: 800;
-  padding: 18px 48px;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(0, 180, 216, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: inherit;
-}
-
-.buy-ticket-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 30px rgba(0, 180, 216, 0.6);
-  background: linear-gradient(135deg, #48cae4 0%, #0077b6 100%);
-}
-
-.buy-ticket-btn:active {
-  transform: translateY(-1px) scale(0.98);
-}
 
 
 @media (max-width: 768px) {

@@ -105,7 +105,8 @@ const handleRegister = async () => {
   }
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/register', {
+
+      const response = await fetch('http://127.0.0.1:8000/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -130,7 +131,7 @@ const handleRegister = async () => {
 }
 
 #genM, #genW {
-  width: 100px;
+  flex: 1;
   padding: 10px 0;
   border: 1.5px solid #cbd5e1;
   background-color: #ffffff; 
@@ -197,6 +198,8 @@ const handleRegister = async () => {
   justify-content: center;
   align-items: center;
   padding: 30px;
+  width: 100%;
+  max-width: 450px;
   border-radius: 20px;
   background-color: #e6edf3;
   box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.1),
@@ -205,7 +208,6 @@ const handleRegister = async () => {
 
 .register-card {
   width: 100%;
-  max-width: 400px; 
   background: #ffffff;
   padding: 35px 30px;
   border-radius: 16px;
@@ -286,5 +288,20 @@ const handleRegister = async () => {
   text-align: center;
   background-color: #f8f9fa;
   border-top: 2px solid #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+  }
+  
+  .main-content {
+    padding: 20px 10px;
+  }
+  
+  .register-wrapper {
+    padding: 15px;
+  }
 }
 </style>
