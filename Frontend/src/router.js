@@ -4,6 +4,7 @@ import Register from "./components/Register.vue";
 import App from "./App.vue";
 import Menu from "./components/Menu.vue";
 import Slide from "./components/Slide.vue";
+import Ticket from "./components/Ticket.vue";
 
 
 
@@ -14,6 +15,7 @@ export default createRouter({
     {path: '/register', component: Register},
     {path: '/login', component: Login},
     {path: '/menu', component: Menu},
-    {path: '/slide', component: Slide}
+    {path: '/slide', component: Slide},
+    {path: "/ticket", component: Ticket}
     ]
 })

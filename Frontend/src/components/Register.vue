@@ -106,13 +106,14 @@ const handleRegister = async () => {
 
   try {
 
-      const response = await fetch('http://127.0.0.1:8000/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData)
-    })
+    const response = await fetch("http://127.0.0.1:8000/register", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true'
+  },
+  body: JSON.stringify(data)
+})
 
     if (response.ok) {
       localStorage.setItem('userName', name.value)

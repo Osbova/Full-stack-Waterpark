@@ -3,7 +3,7 @@
     <header id="bot">
       <div class="nav-group left-nav">
         <button class="navigation">Еда</button>
-        <button class="navigation">Билеты</button>
+        <router-link to="/ticket" class="navigation">Билеты</router-link>
         <router-link to="/slide" class="navigation">Горки</router-link>
         <a href="https://t.me/ARESTOVAN_ZA_IZBIYENIE" target="_blank" class="navigation support-btn">Поддержка</a>
       </div>
@@ -23,7 +23,7 @@
           <span class="wallet-icon">💳</span>
           <span class="wallet-balance">0 ₽</span>
         </div>
-        <button class="navigation profile-btn">Профиль</button>
+        <button class="navigation profile-btn">Пополнить</button>
       </div>
     </header>
 
@@ -35,7 +35,7 @@
         <div class="hero-content">
           <h2 class="hero-title">Незабываемый отдых и эмоции</h2>
           <p class="hero-subtitle">Окунитесь в мир водных развлечений прямо сейчас</p>
-          <button class="buy-ticket-btn">Купить билет</button>
+          <router-link to="/ticket" class="buy-ticket-btn">Купить билет</router-link> 
         </div>
       </section>
     </main>
@@ -213,6 +213,7 @@
   box-shadow: 0 8px 25px rgba(0, 180, 216, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
+  text-decoration: none;
 }
 
 .buy-ticket-btn:hover {
