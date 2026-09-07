@@ -124,6 +124,7 @@ const slides = ref([
 :global(body) {
   margin: 0;
   padding: 0;
+  
 }
 
 #bot {

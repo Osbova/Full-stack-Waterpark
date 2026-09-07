@@ -112,7 +112,7 @@ const handleRegister = async () => {
     'Content-Type': 'application/json',
     'ngrok-skip-browser-warning': 'true'
   },
-  body: JSON.stringify(data)
+  body: JSON.stringify(userData)
 })
 
     if (response.ok) {
