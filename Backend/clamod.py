@@ -17,6 +17,8 @@ class Ticket(Based):
     title = Column(String)
     price = Column(Integer)
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("Users.id"))
+    creator = relationship("User")
 
 class User(Based):
     
@@ -29,6 +31,7 @@ class User(Based):
     role = Column(String, default="user")
 
 
+
 class Food(Based):
 
     __tablename__ = "Еда"
@@ -37,3 +40,5 @@ class Food(Based):
     price = Column(Integer)
     taste = Column(String)
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('Users.id'))
+    creator = relationship("User")

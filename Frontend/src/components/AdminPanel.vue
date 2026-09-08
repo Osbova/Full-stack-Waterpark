@@ -10,26 +10,26 @@
 
     <div class="admin-layout">
       <aside class="sidebar">
-        <button 
-          class="nav-tab" 
+        <button
+          class="nav-tab"
           :class="{ active: activeTab === 'tickets' }"
           @click="activeTab = 'tickets'"
         >
-          🎫 Билеты
+          Билеты
         </button>
-        <button 
-          class="nav-tab" 
+        <button
+          class="nav-tab"
           :class="{ active: activeTab === 'food' }"
           @click="activeTab = 'food'"
         >
-          🍔 Еда / Меню
+          Еда / Меню
         </button>
-        <button 
-          class="nav-tab" 
+        <button
+          class="nav-tab"
           :class="{ active: activeTab === 'users' }"
           @click="activeTab = 'users'"
         >
-          👥 Пользователи
+          Пользователи
         </button>
       </aside>
 
@@ -45,7 +45,11 @@
               <h3>Добавить билет</h3>
               <div class="form-group">
                 <label>Название билета</label>
-                <input type="text" placeholder="Например: Взрослый" class="custom-input" />
+                <input
+                  type="text"
+                  placeholder="Например: Взрослый"
+                  class="custom-input"
+                />
               </div>
               <div class="form-group">
                 <label>Цена (₽)</label>
@@ -57,27 +61,36 @@
               </div>
               <button class="primary-btn">Сохранить билет</button>
             </div>
-            
+
             <div class="card table-card">
-             <h3>Список билетов</h3>
-             <table class="styled-table">
-            <thead>
-           <tr>
-           <th>Название</th>
-           <th>Цена</th>
-           <th>Id</th>
-           <th>Админ</th>
-          </tr>
-            </thead>
-          <tbody>
-    <tr v-for="it in ticket" :key="it.id">
-      <td>{{ it.title }}</td>
-      <td>{{ it.price }}</td>
-      <td>{{ it.id }}</td>
-      <td>{{ it.admin.name }}</td>
-    </tr>
-  </tbody>
-</table>
+              <h3>Список билетов</h3>
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Id</th>
+                    <th>Админ</th>
+                    <th>Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="it in ticket" :key="it.id">
+                    <td>{{ it.title }}</td>
+                    <td>{{ it.price }} ₽</td>
+                    <td>{{ it.id }}</td>
+                    <td>{{ it.creator?.name || "Не указан" }}</td>
+                    <td>
+                      <button 
+                        @click="deleteTicket(it.id)" 
+                        class="btn-delete"
+                      >
+                        Удалить
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -93,11 +106,19 @@
               <h3>Добавить блюдо</h3>
               <div class="form-group">
                 <label>Название</label>
-                <input type="text" placeholder="Пицца Пепперони" class="custom-input" />
+                <input
+                  type="text"
+                  placeholder="Пицца Пепперони"
+                  class="custom-input"
+                />
               </div>
               <div class="form-group">
                 <label>Описание / Особенности</label>
-                <input type="text" placeholder="Острая, с соусом" class="custom-input" />
+                <input
+                  type="text"
+                  placeholder="Острая, с соусом"
+                  class="custom-input"
+                />
               </div>
               <div class="form-group">
                 <label>Цена (₽)</label>
@@ -105,28 +126,37 @@
               </div>
               <button class="primary-btn">Добавить в меню</button>
             </div>
-             <div class="card table-card">
-            <h3>Все позиции</h3>
-               <table class="styled-table">
-            <thead>
-              <tr>
-                <th>Название</th>
-                <th>Цена</th>
-                <th>Вкус</th>
-                <th>d</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="it in food" :key="it.id">
-                <td>{{ it.name }}</td>
-                <td>{{ it.price }}</td>
-                <td>{{ it.taste }}</td>
-                <td>{{ it.id }}</td>
-              </tr>
 
-            </tbody>
-          </table>
-          </div>
+            <div class="card table-card">
+              <h3>Все позиции</h3>
+              <table class="styled-table">++++++
+                <thead>
+                  <tr>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Id</th>
+                    <th>Админ</th>
+                    <th>Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="it in food" :key="it.id">
+                    <td>{{ it.name }}</td>
+                    <td>{{ it.price }} ₽</td>
+                    <td>{{ it.id }}</td>
+                    <td>{{ it.creator?.name || "Не указан" }}</td>
+                    <td>
+                      <button 
+                        @click="deleteFood(it.id)" 
+                        class="btn-delete"
+                      >
+                        Удалить
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -137,79 +167,220 @@
           </div>
 
           <div class="card table-card">
-            <table>
+            <table class="styled-table">
               <thead>
                 <tr>
-                  <th></th>
+                  <th>ID</th>
+                  <th>Имя</th>
+                  <th>Роль</th>
+                  <th>Действия</th>
                 </tr>
               </thead>
+              <tbody>
+                <tr v-for="it in user" :key="it.id">
+                  <td>{{ it.id }}</td>
+                  <td>{{ it.name }}</td>
+                  <td>
+                    <select
+                      :value="it.role"
+                      @change="changeRole(it.id, $event.target.value)"
+                      class="role-select"
+                      :class="it.role ? it.role.toLowerCase() : 'user'"
+                      :disabled="it.role === 'owner'"
+                    >
+                      <option value="user" class="opt-user">user</option>
+                      <option value="employee" class="opt-employee">employee</option>
+                      <option value="waiter" class="opt-waiter">waiter</option>
+                      <option value="admin" class="opt-admin">admin</option>
+                      <option value="owner" class="opt-owner" disabled>owner</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button 
+                      @click="deleteUser(it.id)" 
+                      class="btn-delete"
+                      :disabled="it.role === 'owner'"
+                    >
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
-
           </div>
         </div>
-
       </main>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
-const ticket = ref([])
-const activeTab = ref('tickets')
+const activeTab = ref("tickets");
 
-async function GetTicket() { 
+const ticket = ref([]);
+async function GetTicket() {
   try {
-    const serv = await fetch("http://127.0.0.1:8000/Tickets")
+    const serv = await fetch("http://127.0.0.1:8000/Tickets");
     if (serv.ok) {
-      const data = await serv.json()
-      ticket.value = data
+      const data = await serv.json();
+      ticket.value = data;
     }
   } catch (error) {
-    console.error("Не удалось загрузить билеты:", error)
+    console.error("Не удалось загрузить билеты:", error);
   }
 }
 
-  const food = ref([])
-
-async function GetFood(){
- try{
-  const servfood = await fetch("http://127.0.0.1:8000/food")
-  if (servfood.ok){
-  const datafood = await servfood.json()
-  food.value = datafood
-  }
- } catch(error){
-  console.log("Не удалось загрузить позиции")
- }}
-
-
-
- const user = ref([])
-async function GetUser(){
-  try{
-  bduser = await fetch("http://127.0.0.1:8000/Users")
-  if (bduser.ok){
-  const datauser = await bduser.json()
-  user.value = datauser
-  }} catch {
-    console.log("Не удалось загрузить пользователей")
+const food = ref([]);
+async function GetFood() {
+  try {
+    const servfood = await fetch("http://127.0.0.1:8000/food");
+    if (servfood.ok) {
+      const datafood = await servfood.json();
+      food.value = datafood;
+    }
+  } catch (error) {
+    console.error("Не удалось загрузить позиции:", error);
   }
 }
 
- onMounted(() => {
-  GetFood()
-  GetTicket()
-  GetUser()
- })
+const user = ref([]);
+async function GetUser() {
+  try {
+    const bduser = await fetch("http://127.0.0.1:8000/users");
+    if (bduser.ok) {
+      const datauser = await bduser.json();
+      user.value = datauser;
+    }
+  } catch (error) {
+    console.error("Не удалось загрузить пользователей:", error);
+  }
+}
+
+const currentAdminId = ref(1);
+
+async function deleteUser(userId) {
+  const confirmed = confirm(
+    `Вы действительно хотите удалить пользователя #${userId}?`
+  );
+  if (!confirmed) return;
+
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/user/${userId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        check_user: currentAdminId.value,
+      }),
+    });
+
+    if (response.ok) {
+      alert("Пользователь успешно удален!");
+      await GetUser();
+    } else {
+      const errorData = await response.json();
+      alert(`Ошибка: ${errorData.detail || "Не удалось удалить пользователя"}`);
+    }
+  } catch (error) {
+    console.error("Ошибка сети при удалении:", error);
+  }
+}
+
+async function deleteFood(id) {
+  const confirmed = confirm(`Вы действительно хотите удалить позицию #${id}?`);
+  if (!confirmed) return;
+
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/food/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        check_user: currentAdminId.value,
+      }),
+    });
+
+    if (response.ok) {
+      alert("Позиция успешно удалена!");
+      await GetFood();
+    } else {
+      const errorData = await response.json();
+      alert(`Ошибка: ${errorData.detail || "Не удалось удалить позицию"}`);
+    }
+  } catch (error) {
+    console.error("Ошибка сети при удалении позиции:", error);
+  }
+}
+
+async function deleteTicket(id) {
+  const confirmed = confirm(`Вы действительно хотите удалить билет #${id}?`);
+  if (!confirmed) return;
+
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/ticket/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        check_user: currentAdminId.value,
+      }),
+    });
+
+    if (response.ok) {
+      alert("Билет успешно удален!");
+      await GetTicket();
+    } else {
+      const errorData = await response.json();
+      alert(`Ошибка: ${errorData.detail || "Не удалось удалить билет"}`);
+    }
+  } catch (error) {
+    console.error("Ошибка сети при удалении билета:", error);
+  }
+}
+
+async function changeRole(targetUserId, newRole) {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/${targetUserId}/role`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: currentAdminId.value,
+        new_role: newRole,
+      }),
+    });
+
+    if (response.ok) {
+      await GetUser();
+    } else {
+      const errorData = await response.json();
+      alert(`Ошибка: ${errorData.detail || "Не удалось изменить роль"}`);
+      await GetUser();
+    }
+  } catch (error) {
+    console.error("Ошибка сети при смене роли:", error);
+    await GetUser();
+  }
+}
+
+onMounted(() => {
+  GetFood();
+  GetTicket();
+  GetUser();
+});
 </script>
 
 <style scoped>
 :global(body) {
   margin: 0;
   background-color: #f8fafc;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 .admin-page {
@@ -279,6 +450,30 @@ async function GetUser(){
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.btn-delete {
+  padding: 6px 12px;
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.btn-delete:hover:not(:disabled) {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+  color: #7f1d1d;
 }
 
 .nav-tab {
@@ -415,51 +610,72 @@ async function GetUser(){
   color: #0f172a;
   font-weight: 600;
   font-size: 0.95rem;
+  vertical-align: middle;
 }
 
-.action-btn {
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
+.role-select {
+  box-sizing: border-box;
+  padding: 6px 28px 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
 }
 
-.delete-btn {
-  background: #fef2f2;
-  color: #dc2626;
+.role-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
 }
 
-.delete-btn:hover {
-  background: #fee2e2;
+.role-select.user {
+  background-color: #f8fafc;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%334155' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
-.edit-btn {
-  background: #f0f9ff;
+.role-select.employee {
+  background-color: #f8fafc;
   color: #0284c7;
+  border: 1px solid #bae6fd;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%0284c7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
-.edit-btn:hover {
-  background: #e0f2fe;
+.role-select.waiter {
+  background-color: #f8fafc;
+  color: #7e22ce;
+  border: 1px solid #e9d5ff;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%7e22ce' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
-.role-badge {
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
+.role-select.admin {
+  background-color: #f8fafc;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%991b1b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
-.role-badge.admin {
-  background: #f0fdf4;
-  color: #16a34a;
+.role-select.owner {
+  background-color: #f8fafc;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  background-image: none;
+  padding-right: 12px;
 }
 
-.role-badge.user {
-  background: #f1f5f9;
-  color: #475569;
-}
+.role-select option.opt-user { background-color: #ffffff; color: #334155; }
+.role-select option.opt-employee { background-color: #ffffff; color: #0284c7; }
+.role-select option.opt-waiter { background-color: #ffffff; color: #7e22ce; }
+.role-select option.opt-admin { background-color: #ffffff; color: #991b1b; }
+.role-select option.opt-owner { background-color: #ffffff; color: #b45309; }
 
 @media (max-width: 900px) {
   .admin-layout {
