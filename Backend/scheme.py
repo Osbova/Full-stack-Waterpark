@@ -35,11 +35,12 @@ class User(UserCreate):
 class TicketCreate(BaseModel):
      price: int
      title: str
+     col: int
      user_id: int
-     creator: User
 
 class Ticket(TicketCreate):
      id: int
+     creator: User
 
      class Config:
          from_attributes = True
@@ -49,12 +50,12 @@ class FoodCreate(BaseModel):
     taste: str
     user_id: int
     price: int
-    creator: Optional[User] = None
+   
 
 
 class Food(FoodCreate):
     id: int
-
+    creator: Optional[User] = None
     class Config:
        from_attributes = True
 

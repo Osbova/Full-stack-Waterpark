@@ -49,17 +49,18 @@
                   type="text"
                   placeholder="Например: Взрослый"
                   class="custom-input"
+                  v-model="Tickettitle"
                 />
               </div>
               <div class="form-group">
                 <label>Цена (₽)</label>
-                <input type="number" placeholder="3590" class="custom-input" />
+                <input type="number" placeholder="3590" class="custom-input" v-model="Ticketprice" />
               </div>
               <div class="form-group">
                 <label>Количество в наличии</label>
-                <input type="number" placeholder="100" class="custom-input" />
+                <input type="number" placeholder="100" class="custom-input" v-model="Ticketcol" />
               </div>
-              <button class="primary-btn">Сохранить билет</button>
+              <button class="primary-btn" @click="AddTicket">Сохранить билет</button>
             </div>
 
             <div class="card table-card">
@@ -69,6 +70,7 @@
                   <tr>
                     <th>Название</th>
                     <th>Цена</th>
+                    <th>Количество</th>
                     <th>Id</th>
                     <th>Админ</th>
                     <th>Действия</th>
@@ -78,8 +80,9 @@
                   <tr v-for="it in ticket" :key="it.id">
                     <td>{{ it.title }}</td>
                     <td>{{ it.price }} ₽</td>
+                    <td>{{ it.col }}</td>
                     <td>{{ it.id }}</td>
-                    <td>{{ it.creator?.name || "Не указан" }}</td>
+                    <td>{{ it.creator?.name || "Не указан" }} id -> {{ it.creator.id }}</td>
                     <td>
                       <button 
                         @click="deleteTicket(it.id)" 
@@ -110,26 +113,29 @@
                   type="text"
                   placeholder="Пицца Пепперони"
                   class="custom-input"
+                  v-model="Foodtitle"
+
                 />
               </div>
               <div class="form-group">
-                <label>Описание / Особенности</label>
+                <label>Особенности</label>
                 <input
                   type="text"
                   placeholder="Острая, с соусом"
-                  class="custom-input"
+                  class="custom-input" 
+                  v-model="Foodtaste"
                 />
               </div>
               <div class="form-group">
                 <label>Цена (₽)</label>
-                <input type="number" placeholder="650" class="custom-input" />
+                <input type="number" placeholder="650" class="custom-input" v-model="Foodprice" />
               </div>
-              <button class="primary-btn">Добавить в меню</button>
+              <button class="primary-btn"  @click="AddFood">Добавить в меню</button>
             </div>
 
             <div class="card table-card">
               <h3>Все позиции</h3>
-              <table class="styled-table">++++++
+              <table class="styled-table">
                 <thead>
                   <tr>
                     <th>Название</th>
@@ -144,7 +150,7 @@
                     <td>{{ it.name }}</td>
                     <td>{{ it.price }} ₽</td>
                     <td>{{ it.id }}</td>
-                    <td>{{ it.creator?.name || "Не указан" }}</td>
+                    <td>{{ it.creator?.name || "Не указан" }} id -> {{ it.creator.id }}</td>
                     <td>
                       <button 
                         @click="deleteFood(it.id)" 
@@ -218,6 +224,72 @@
 import { ref, onMounted } from "vue";
 
 const activeTab = ref("tickets");
+const Tickettitle = ref("")
+const Ticketprice = ref("")
+const Ticketcol = ref("")
+const Foodtitle = ref("")
+const Foodtaste = ref("")
+const Foodprice = ref("")
+const currentAdminId = ref(1);
+
+async function AddFood(){
+  if (Foodprice.value !== "" && Foodtaste.value !== "" && Foodtitle !== ""){
+    const Foodata = {
+      name: Foodtitle.value,
+      price: Foodprice.value,
+      taste: Foodtaste.value,
+      user_id: currentAdminId.value
+    }
+    const response = await fetch("http://127.0.0.1:8000/food/add", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify(Foodata)
+    })
+    if (response.ok){
+     GetFood()
+     Foodtitle.value = ''
+     Foodprice.value = ''
+     Foodtaste.value = '' 
+  }else{
+    const errorData = await response.json();
+    alert(`Ошибка: ${errorData.detail || "Не удалось добавить позицию"}`);
+  }
+  }
+
+  
+}
+
+async function AddTicket(){
+  if (Ticketcol.value !== "" && Ticketprice.value !== "" && Tickettitle.value !== ""){
+     const Ticketdata = {
+        title: Tickettitle.value,
+        price: Ticketprice.value,
+        col: Ticketcol.value,
+        user_id: currentAdminId.value
+  }
+  const response = await fetch("http://127.0.0.1:8000/ticket/add", {
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true'
+  },
+  body: JSON.stringify(Ticketdata)
+});
+   if (response.ok){
+    Tickettitle.value = "";
+    Ticketprice.value = "";
+    Ticketcol.value = ""; 
+    await GetTicket()
+  }else{
+     const errorData = await response.json();
+    alert(`Ошибка: ${errorData.detail || "Не удалось добавить билет"}`);
+  }
+}}
+
+ 
 
 const ticket = ref([]);
 async function GetTicket() {
@@ -258,7 +330,7 @@ async function GetUser() {
   }
 }
 
-const currentAdminId = ref(1);
+
 
 async function deleteUser(userId) {
   const confirmed = confirm(

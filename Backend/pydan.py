@@ -42,7 +42,7 @@ async def addtick(tick: TicketCreate, db: Session = Depends(get_db)) -> tick:
         raise HTTPException(status_code=440, detail="Пользователь не найден")
 
     if user.role == 'owner' or user.role == 'admin':
-        new_tick = clamod.Ticket(title=tick.title, price=tick.price, user_id=tick.user_id)
+        new_tick = clamod.Ticket(title=tick.title, price=tick.price, user_id=tick.user_id, col=tick.col)
 
         db.add(new_tick)
         db.commit()

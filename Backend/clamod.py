@@ -17,6 +17,7 @@ class Ticket(Based):
     title = Column(String)
     price = Column(Integer)
     id = Column(Integer, primary_key=True, index=True)
+    col = Column(Integer)
     user_id = Column(Integer, ForeignKey("Users.id"))
     creator = relationship("User")
 
