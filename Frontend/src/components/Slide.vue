@@ -2,10 +2,8 @@
   <div>
     <header id="bot">
       <div class="nav-group left-nav">
-        <button class="navigation">Еда</button>
+        <router-link to="/food" class="navigation">Позиции</router-link>
         <router-link to="/ticket" class="navigation">Билеты</router-link>
-        <router-link to="/slide" class="navigation">Горки</router-link>
-        <a href="https://t.me/ARESTOVAN_ZA_IZBIYENIE" target="_blank" class="navigation support-btn">Поддержка</a>
       </div>
 
       <h1 class="logo">
@@ -19,14 +17,10 @@
       </h1>
 
       <div class="nav-group right-nav">
-        <div class="wallet-badge">
-          <span class="wallet-icon">💳</span>
-          <span class="wallet-balance">0 ₽</span>
-        </div>
-        <button class="navigation profile-btn">Пополнить</button>
+        <router-link to="/slide" class="navigation">Горки</router-link>
+        <a href="https://t.me/ARESTOVAN_ZA_IZBIYENIE" target="_blank" class="navigation support-btn">Поддержка</a>
       </div>
     </header>
-
 
     <main class="slides-container">
       <h2 class="section-title">Наши Горки</h2>
@@ -38,13 +32,11 @@
           class="slide-card"
           :class="{ 'reverse': index % 2 !== 0 }"
         >
-
           <div class="slide-image-wrapper">
             <img :src="slide.image" :alt="slide.title" class="slide-image" />
             <span class="badge" :class="slide.tagClass">{{ slide.tag }}</span>
           </div>
 
-        
           <div class="slide-content">
             <h3 class="slide-title">{{ slide.title }}</h3>
             <p class="slide-description">{{ slide.description }}</p>
@@ -105,7 +97,6 @@ const slides = ref([
     speed: "до 70 км/ч",
     age: "15+",
     image: slide3Img
-
   },
   {
     id: 4,
@@ -116,7 +107,6 @@ const slides = ref([
     age: "12+",
     image: slide4Img
   }
-
 ])
 </script>
 
@@ -124,90 +114,70 @@ const slides = ref([
 :global(body) {
   margin: 0;
   padding: 0;
-  
 }
 
 #bot {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  padding: 12px 40px;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 16px 50px;
   background-color: #ffffff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-}
-
-.nav-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-}
-
-.support-btn {
-  text-decoration: none; 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.right-nav {
-  justify-content: flex-end;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .navigation {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #334155;
-  font-weight: 700;
-  font-size: 1.05rem;
-  padding: 8px 16px;
-  border-radius: 10px;
-  transition: all 0.2s ease;
+  color: #1e293b;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navigation:hover {
   color: #0077b6;
+  background-color: #f0f9ff;
+  transform: translateY(-1px);
+}
+
+.navigation.router-link-active {
+  color: #0077b6;
+  background-color: #e0f2fe;
+}
+
+.support-btn {
   background-color: #f1f5f9;
+  color: #0077b6;
+  border: 1px solid #cbd5e1;
 }
 
-.wallet-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-weight: 700;
-  color: #0f172a;
-  font-size: 0.95rem;
-}
-
-.wallet-icon {
-  font-size: 1.1rem;
-}
-
-.profile-btn {
+.support-btn:hover {
   background-color: #0077b6;
   color: #ffffff;
-}
-
-.profile-btn:hover {
-  background-color: #00b4d8;
-  color: #ffffff;
+  border-color: #0077b6;
 }
 
 .logo {
-  font-size: 3.2rem;
+  font-size: 3.4rem;
   font-weight: 900;
-  margin: 0 20px;
-  letter-spacing: 6px;
+  margin: 0 30px;
+  letter-spacing: 8px;
   text-align: center;
   white-space: nowrap;
   line-height: 1;
+  user-select: none;
 }
 
 .let1 { color: #00b4d8; } 
@@ -217,7 +187,6 @@ const slides = ref([
 .let5 { color: #ffb703; } 
 .let6 { color: #fb8500; }
 .let7 { color: #e63946; }
-
 
 .slides-container {
   max-width: 1100px;

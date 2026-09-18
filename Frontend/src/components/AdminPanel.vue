@@ -2,7 +2,6 @@
   <div class="admin-page">
     <header class="admin-header">
       <div class="header-left">
-        <span class="admin-badge">ADMIN</span>
         <h1>Панель управления</h1>
       </div>
       <router-link to="/menu" class="back-link">← Вернуться на сайт</router-link>
